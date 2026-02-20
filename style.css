@@ -5,93 +5,152 @@
     --fundo: #fffff5;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/*section images*/ 
+body{
+    background-color: var(--fundo);
+}
+
+/* ===== SECTION IMAGES ===== */
 
 #sectionImages{
-    width: 100%;
-    height: 35vh;
-    background-color: var(--fundo);
-}
-.images{
-    margin-left: 5%;
-    float: left;
-    margin-top: 2.5%;
-    width: 33%;
-    height: 75%;
-    border-radius: 45px;
-    background-color: var(--azulClaro);
-}
-#before{
-    margin-left: 14%;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:25px;
 }
 
+/* .images{
+    width:400px;
+    max-width:100%;
+    height:220px;
+    border-radius:45px;
+    background-color:var(--azulClaro);
+} */
+/* caixa da imagem */
+.images{
+    width:400px;
+    max-width:100%;
+    height:220px;
+    border-radius:45px;
+    background-color:var(--azulClaro);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+/* label ocupa tudo */
 .file-input{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* esconde input */
+.file-input input{
+    display:none;
+}
+
+/* área do texto */
+.drop-zone{
+    border:none;          
+    background:none;      
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+.drop-zone {
+    width: 100%;
+    height: 220px; /* escolha a altura que você usava antes */
+    
+    display: flex;
+
+    overflow: hidden; /* MUITO importante */
+    border-radius: 45px;
+}
+.drop-zone p {
+    margin: 0;
+    font-weight: bold;
+}
+.preview-img{
     width: 100%;
     height: 100%;
-    background-color: greenyellow;
-    display: grid;
-    grid-template-areas: "stack";
+    object-fit: cover;
     border-radius: 45px;
 }
 
-.file-input > * {
-    grid-area: stack;
-} 
+/* ===== BUTTONS ===== */
 
-.file-input > input{
-    opacity: 0;
+.myButton {
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0px 10px 14px -7px #6897d4;
+	background:linear-gradient(to bottom, #cbe1ff 5%, #b8d7ff 100%);
+	background-color:#cbe1ff;
+	border-radius:10px;
+	display:inline-block;
+	cursor:pointer;
+	color:#0b3b79;
+	font-family: 'Arial', sans-serif;
+	font-size:22px;
+	font-weight:bold;
+	padding:8px 27px;
+	text-decoration:none;
+	text-shadow:none;
+
+    border: none;
+    outline: none;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #b8d7ff 5%, #cbe1ff 100%);
+	background-color:#b8d7ff;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+@media (max-width: 576px){
+
+    .myButton{
+        display: block;      /* ocupa linha inteira */
+        width: 100%;         /* largura total */
+        max-width: 100%;     /* evita estourar */
+        font-size: 18px;
+        padding: 12px 20px;
+        margin: 0 auto;      /* centraliza caso tenha limite */
+        box-sizing: border-box;
+    }
+
 }
 
-.file-input > .drop-zone{
-    margin: 12px;
-    border: dashed 2px black;
-    border-radius: 24px;
-}   
 
-.file-input > .drop-zone{
-    margin: 14px;
-    background-color: var(--azulMedio);
-}
+/* ===== SECTION IDENTIFY ===== */
 
-.drop-zone{
+#sectionIdentify {
     display: flex;
+    flex-direction: column; /* 👈 isso faz ficar vertical */
     justify-content: center;
     align-items: center;
+    gap: 20px;
 }
 
-
-
-
-/*section identify*/ 
-
-#sectionIdentify{
-    width: 100%;
-    height: 18vh;
-    background-color: var(--fundo);
-    padding: 1px;
-}
-.form-select {
-    margin-left: 25%;
-    margin-top: 2%;
-}
-
-
-/*section information*/ 
-
-#sectionInformation{
-    width: 100%;
-    height: 60vh;
-    background-color: var(--fundo);
-    padding: 1px;
-}
+/* ===== SECTION INFORMATION ===== */
 
 #accordionExample{
-    width: 80%;
-    margin-left: 10%;
+    max-width:700px;
+}
+
+.btn-success.w-100 {
+    background-color: var(--azulMedio);
+    border-color: var(--azulMedio);
 }
