@@ -35,34 +35,49 @@
     <!-- ACCORDION -->
     <section class="accordion">
 
-        <button class="acc-btn">💰 Ver dinheiro</button>
+        <button class="acc-btn">Ver dinheiro</button>
         <div class="acc-content">
             <p id="moneyValor">Carregando...</p>
         </div>
 
-        <button class="acc-btn">🎯 Metas</button>
+        <button class="acc-btn">Metas</button>
         <div class="acc-content">
 
-            <div class="card">
-                <button onclick="criarMeta()">Criar Meta</button>
+            <button onclick="criarMeta()">Criar Meta</button>
 
-                <div class="barra">
-                    <div id="progressoMeta">
-                        <span id="porcentagemMeta">0%</span>
-                    </div>
-                </div>
+            <div class="barra">
+                <div id="progressoMeta"></div>
+                <span id="porcentagemMeta">0%</span>
             </div>
 
         </div>
 
-        <button class="acc-btn">🤝 Desafio</button>
+        <button class="acc-btn">Desafio</button>
         <div class="acc-content">
-            <p>Desafio em andamento...</p>
+
+            <button onclick="criarDesafio()">Criar desafio</button>
+
+            <div class="barra">
+                <div id="progresso_rafaela"></div>
+                <span id="porcentagem_rafaela">0%</span>
+            </div>
+
+            <div class="barra">
+                <div id="progresso_roberta"></div>
+                <span id="porcentagem_roberta">0%</span>
+            </div>
+
         </div>
 
-        <button class="acc-btn">📅 Calendário</button>
+        <button class="acc-btn">Calendário</button>
         <div class="acc-content">
-            <div id="calendario"></div>
+            <div class="cal-header">
+                <button class="flechas" onclick="mudarMes(-1)">◀</button>
+                <h3 id="mesAno"></h3>
+                <button class="flechas" onclick="mudarMes(1)">▶</button>
+                </div>
+
+                <div id="calendario" class="cal-grid"></div>
         </div>
 
     </section>

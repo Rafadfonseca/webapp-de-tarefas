@@ -2,25 +2,26 @@ const usuario = localStorage.getItem("usuario");
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // segurança
     if (!usuario) {
         window.location.href = "index.html";
         return;
     }
 
-    // nome no topo
     const nome = document.getElementById("nomeUsuario");
     if (nome) {
         nome.textContent =
             usuario.charAt(0).toUpperCase() + usuario.slice(1);
     }
 
-    // aplica tema
     document.body.classList.add(usuario);
 
     iniciarAccordion();
     carregarMoney();
+    carregarMeta();
+    carregarDesafio();
+    carregarCalendarioDados();
 });
+
 function iniciarAccordion() {
 
     const botoes = document.querySelectorAll(".acc-btn");
@@ -56,8 +57,8 @@ function adicionarTarefa() {
     }
 
     const dados = {
-        usuario: usuario,
-        tarefa: tarefa,
+        usuario,
+        tarefa,
         data: new Date().toLocaleDateString("pt-BR"),
         valor: 20
     };
@@ -69,28 +70,23 @@ function adicionarTarefa() {
         },
         body: JSON.stringify(dados)
     })
-    .then(res => {
-        if (!res.ok) throw new Error("Erro no servidor");
-        return res.json();
-    })
+    .then(res => res.json())
     .then(() => {
         alert("✅ Tarefa salva!");
-
-        // ⭐ limpa o select
         select.selectedIndex = 0;
+        carregarMoney();
+        carregarMeta();
     })
     .catch(err => {
         console.error(err);
         alert("Erro ao enviar");
     });
 }
+
 function carregarMoney() {
 
     fetch("https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec?usuario=" + usuario)
-        .then(res => {
-            if (!res.ok) throw new Error("Erro no servidor");
-            return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
 
             const el = document.getElementById("moneyValor");
@@ -102,107 +98,355 @@ function carregarMoney() {
         })
         .catch(err => console.error("Money erro:", err));
 }
-function salvarMeta() {
 
-    const valor = document.getElementById("valorMeta").value;
+async function carregarMeta() {
 
-    if (!valor) {
-        alert("Digite um valor");
+    const res = await fetch(
+        "https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec?usuario="
+        + usuario + "&tipo=meta"
+    );
+
+    const dados = await res.json();
+
+    const barra = document.getElementById("progressoMeta");
+    const texto = document.getElementById("porcentagemMeta");
+
+    if (!barra || !texto) return;
+
+    const total = Number(dados.total) || 0;
+    const meta = Number(dados.meta) || 0;
+
+    if (meta === 0) {
+        barra.style.width = "0%";
+        texto.textContent = "Sem meta";
         return;
     }
 
-    fetch("https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec", {
+    let progresso = (total / meta) * 100;
+    if (progresso > 100) progresso = 100;
+
+    animarBarra(barra, progresso);
+    animarNumero(texto, total, meta, progresso);
+    mudarCor(barra, progresso);
+
+    // confete apenas quando completar
+    if (total >= meta && !window.metaCompleta) {
+        confete();
+        window.metaCompleta = true;
+    }
+}
+
+function animarBarra(elemento, valorFinal) {
+    elemento.style.width = valorFinal + "%";
+}
+
+function animarNumero(texto, total, meta, progresso) {
+
+    let atual = 0;
+    const duracao = 800;
+    const passos = 30;
+    const incremento = total / passos;
+
+    const intervalo = setInterval(() => {
+
+        atual += incremento;
+
+        if (atual >= total) {
+            atual = total;
+            clearInterval(intervalo);
+        }
+
+        texto.textContent =
+            `R$ ${Math.floor(atual)} / R$ ${meta} (${Math.floor(progresso)}%)`;
+
+    }, duracao / passos);
+}
+
+function mudarCor(barra, progresso) {
+
+    if (progresso < 50) {
+        barra.style.background = "#ef5350";
+    }
+    else if (progresso < 80) {
+        barra.style.background = "#ffa726";
+    }
+    else {
+        barra.style.background = "#2e7d32";
+    }
+}
+
+function confete() {
+
+    const cores = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5", "#ab47bc"];
+
+    for (let i = 0; i < 120; i++) {
+
+        const conf = document.createElement("div");
+
+        conf.style.position = "fixed";
+        conf.style.width = "10px";
+        conf.style.height = "10px";
+        conf.style.background =
+            cores[Math.floor(Math.random() * cores.length)];
+
+        conf.style.left = Math.random() * window.innerWidth + "px";
+        conf.style.top = "-20px";
+        conf.style.zIndex = "999999";
+        conf.style.pointerEvents = "none";
+
+        document.body.appendChild(conf);
+
+        const duracao = 1500 + Math.random() * 1500;
+
+        conf.animate([
+            { transform: "translateY(0) rotate(0deg)" },
+            { transform: `translateY(${window.innerHeight + 50}px) rotate(${Math.random()*720}deg)` }
+        ], {
+            duration: duracao,
+            easing: "cubic-bezier(.2,.8,.2,1)"
+        });
+
+        setTimeout(() => conf.remove(), duracao);
+    }
+}
+
+async function criarMeta() {
+
+    const res = await fetch(
+        "https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec?usuario="
+        + usuario + "&tipo=meta"
+    );
+
+    const dados = await res.json();
+
+    let valor;
+
+    if (dados.meta > 0) {
+        const trocar = confirm("Você já tem uma meta. Deseja criar uma nova?");
+        if (!trocar) return;
+        valor = prompt("Qual o novo valor da sua meta?");
+    } 
+    else {
+        valor = prompt("Qual o valor da sua meta?");
+    }
+
+    if (!valor) return;
+
+    await fetch("https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec", {
         method: "POST",
         headers: {
             "Content-Type": "text/plain;charset=utf-8"
         },
         body: JSON.stringify({
             tipo: "meta",
-            usuario: usuario,
-            valor: valor
+            usuario,
+            valor: Number(valor)
         })
-    })
-    .then(res => {
-        if (!res.ok) throw new Error("Erro no servidor");
-        return res.json();
-    })
-    .then(() => {
-        alert("🎯 Meta salva!");
-        carregarMeta();
-    });
+        });
+
+    window.metaCompleta = false;
+    carregarMeta();
 }
 
+// ================= DESAFIO =================
 
-
-async function carregarMeta() {
-
-  const usuario = localStorage.getItem("usuario");
+async function carregarDesafio() {
 
   const res = await fetch(
-    "https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec?usuario="
-    + usuario + "&tipo=meta"
+    "https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec?tipo=desafio"
   );
 
   const dados = await res.json();
 
-  const barra = document.getElementById("progressoMeta");
-  const textoPorcentagem = document.getElementById("porcentagemMeta");
+  atualizarBarra("rafaela", dados.rafaela);
+  atualizarBarra("roberta", dados.roberta);
+}
 
-  if (!barra) return;
+function atualizarBarra(usuarioNome, dados) {
 
-  // sem meta ainda
-  if (!dados.meta || dados.meta == 0) {
-    barra.style.width = "0%";
-    textoPorcentagem.textContent = "0%";
-    return;
-  }
+  if (!dados || !dados.meta) return;
+
+  const barra = document.getElementById("progresso_" + usuarioNome);
+  const texto = document.getElementById("porcentagem_" + usuarioNome);
+
+  if (!barra || !texto) return;
 
   let progresso = (dados.total / dados.meta) * 100;
 
   if (progresso > 100) progresso = 100;
 
   barra.style.width = progresso + "%";
-  textoPorcentagem.textContent = Math.floor(progresso) + "%";
+  texto.textContent =
+    `R$ ${dados.total} / R$ ${dados.meta} (${Math.floor(progresso)}%)`;
 }
 
+async function criarDesafio() {
 
+  // busca desafio atual
+  const res = await fetch(
+    "https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec?tipo=desafio"
+  );
 
-
-async function criarMeta() {
-
-  const usuario = localStorage.getItem("usuario");
-
-  // busca meta atual
-  const res = await fetch("https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec?usuario=" + usuario + "&tipo=meta");
   const dados = await res.json();
+
+  let valorAtual = 0;
+
+  if (dados.rafaela && dados.rafaela.meta) {
+    valorAtual = Number(dados.rafaela.meta);
+  }
 
   let valor;
 
-  // já existe meta
-  if (dados.meta > 0) {
+  // ✅ se já existir desafio
+  if (valorAtual > 0) {
 
-    const trocar = confirm("Você já tem uma meta. Deseja criar uma nova?");
+    const trocar = confirm("Você já tem um desafio ativo. Deseja criar outro?");
     if (!trocar) return;
 
-    valor = prompt("Qual o novo valor da sua meta?");
+    valor = prompt("Qual o novo valor do desafio?");
   } 
   else {
-    valor = prompt("Qual o valor da sua meta?");
+    valor = prompt("Qual o valor do desafio?");
   }
 
   if (!valor) return;
 
-  await fetch("https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      tipo: "meta",
-      usuario: usuario,
-      valor: Number(valor)
-    })
+  await fetch(
+    "https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        tipo: "desafio",
+        valor: Number(valor)
+      })
+    }
+  );
+
+  carregarDesafio(); // atualiza barras
+}
+
+
+function atualizarBarra(usuarioNome, dados) {
+
+  if (!dados || !dados.meta) return;
+
+  const barra = document.getElementById("progresso_" + usuarioNome);
+  const texto = document.getElementById("porcentagem_" + usuarioNome);
+
+  if (!barra || !texto) return;
+
+  const total = Number(dados.total) || 0;
+  const meta = Number(dados.meta) || 0;
+
+  if (meta === 0) {
+    barra.style.width = "0%";
+    texto.textContent = "Sem meta";
+    return;
+  }
+
+  let progresso = (total / meta) * 100;
+  if (progresso > 100) progresso = 100;
+
+  // ⭐ MESMAS FUNÇÕES DO META
+  animarBarra(barra, progresso);
+  animarNumero(texto, total, meta, progresso);
+  mudarCor(barra, progresso);
+}
+
+// ================= CALENDÁRIO =================
+
+let dataAtual = new Date();
+let diasComTarefa = [];
+
+async function carregarCalendarioDados() {
+
+  try {
+
+    const res = await fetch(
+      "https://script.google.com/macros/s/AKfycbzyUWn-_SfnPRoMeFCdkmNO_kFhzX0QKc9eQQkovPFipeg82JPLTQ0ueRiutFCdg-yD/exec?usuario="
+      + usuario + "&tipo=calendario"
+    );
+
+    const dados = await res.json();
+
+    diasComTarefa = dados.dias || [];
+
+    console.log("dias carregados:", diasComTarefa);
+
+    // 👇 força redesenho REAL
+    setTimeout(() => {
+      desenharCalendario();
+    }, 50);
+
+  } catch (erro) {
+    console.error("Erro calendário:", erro);
+  }
+}
+
+function desenharCalendario() {
+
+  const cal = document.getElementById("calendario");
+  const titulo = document.getElementById("mesAno");
+
+  cal.innerHTML = "";
+  console.log("diasComTarefa:", diasComTarefa);
+
+  const diasSemana = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+
+  diasSemana.forEach(d => {
+    const el = document.createElement("div");
+    el.textContent = d;
+    el.style.fontWeight = "bold";
+    el.style.textAlign = "center";
+    cal.appendChild(el);
   });
 
-  carregarMeta();
+  const ano = dataAtual.getFullYear();
+  const mes = dataAtual.getMonth();
+
+  titulo.textContent =
+    dataAtual.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+
+  const primeiroDia = new Date(ano, mes, 1).getDay();
+  const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+
+  for (let i = 0; i < primeiroDia; i++){
+    cal.innerHTML += "<div></div>";
+  }
+
+  for (let dia = 1; dia <= diasNoMes; dia++){
+
+    const div = document.createElement("div");
+    div.className = "dia";
+    div.textContent = dia;
+
+    const dataFormatada =
+      `${dia.toString().padStart(2,"0")}/${(mes+1)
+      .toString().padStart(2,"0")}/${ano}`;
+
+    const fezNoDia = diasComTarefa
+    .map(d => d.trim())
+    .includes(dataFormatada.trim());
+
+    if (fezNoDia) { 
+
+      const bolinha = document.createElement("div");
+      bolinha.className = "bolinha";
+
+      bolinha.style.background =
+        usuario === "rafaela" ? "#fff67b" : "#ffb6c1";
+
+      div.appendChild(bolinha);
+    }
+
+    cal.appendChild(div);
+  }
 }
-window.onload = () => {
-  carregarMeta();
-};
+
+function mudarMes(valor){
+  dataAtual.setMonth(dataAtual.getMonth() + valor);
+  desenharCalendario();
+}

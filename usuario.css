@@ -5,7 +5,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f6fb;
+    background: #fffce0;
     color: #000;
 }
 /* ===== TEMAS ===== */
@@ -18,10 +18,6 @@ body.roberta .topo {
     background: #ffb6c1; /* rosa gatos */
 }
 
-body.fabiano .topo {
-    background: #1976d2; /* azul */
-}
-
 
 /* BOTÕES seguem o tema */
 
@@ -31,10 +27,6 @@ body.rafaela button {
 
 body.roberta button {
     background: #ffb6c1;
-}
-
-body.fabiano button {
-    background: #1976d2;
 }
 
 .logout {
@@ -110,25 +102,106 @@ button:hover {
     transition: max-height 0.3s ease;
     padding: 0 15px;
 }
+.acc-content.open {
+    padding: 15px;
+}
 .barra {
     width: 100%;
-    height: 20px;
+    height: 26px;
     background: #eee;
-    border-radius: 10px;
+    border-radius: 13px;
     margin-top: 10px;
     overflow: hidden;
+    position: relative;
 }
 
+.barra div {
+    height: 100%;
+    width: 0%;
+    transition: width 0.8s ease;
+}
+
+.barra span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+#porcentagemMeta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
 #progressoMeta {
     height: 100%;
     width: 0%;
-    background: #2e7d32;
-    transition: width 0.4s ease;
+    transition: width 0.8s ease;
+}
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
+button:active {
+    filter: brightness(0.85);
+    transform: scale(0.97);
+}
+#barraRafaela,
+#barraRoberta {
+    height: 100%;
+    width: 0%;
+    transition: width 0.8s ease;
+}
+
+.cal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+  min-height: 260px; /* ⭐ IMPORTANTE */
+}
+
+.dia {
+  position: relative;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f1f1;
+  border-radius: 8px;
+  color: black;
+  font-weight: 500;
+}
+
+.bolinha {
+  width: 70px;
+  height: 45px;
+  border-radius: 8px;
+  position: absolute;
+}
+#calendario {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flechas{
+    width: 30%;
+}
+.cal-grid div{
+  text-align:center;
 }
