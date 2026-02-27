@@ -31,11 +31,12 @@ function iniciarAccordion() {
 
             const content = this.nextElementSibling;
 
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
+            content.classList.toggle("open");
+
+            if (content.classList.contains("open")) {
+                content.style.maxHeight = content.scrollHeight + "px";
             } else {
-                content.style.maxHeight =
-                    content.scrollHeight + "px";
+                content.style.maxHeight = null;
             }
         });
     });
@@ -445,8 +446,11 @@ function desenharCalendario() {
     cal.appendChild(div);
   }
 }
-
 function mudarMes(valor){
   dataAtual.setMonth(dataAtual.getMonth() + valor);
   desenharCalendario();
+
+  // 🔥 ATUALIZA ALTURA DO ACCORDION
+  const content = document.getElementById("calendario").parentElement;
+  content.style.maxHeight = content.scrollHeight + "px";
 }

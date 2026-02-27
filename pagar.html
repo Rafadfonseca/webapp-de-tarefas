@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Tasks</title>
+
+<link rel="stylesheet" href="pagar.css">
+</head>
+
+<body>
+
+<header class="topo">
+    <h2>Olá, <span id="nomeUsuario"></span> </h2>
+    <button class="logout" onclick="logout()">Sair</button>
+</header>
+
+<main class="container">
+
+    <!-- ACCORDION -->
+    <section class="accordion">
+
+        <button class="acc-btn">Rafaela</button>
+        <div class="acc-content">
+            <p id="moneyRafaela">Carregando...</p>
+
+            <div class="barra">
+                <div id="progressoMetaRafaela"></div>
+                <span id="porcentagemMetaRafaela">0%</span>
+            </div>
+        </div>
+
+
+        <button class="acc-btn">Roberta</button>
+        <div class="acc-content">
+            <p id="moneyRoberta">Carregando...</p>
+
+            <div class="barra">
+                <div id="progressoMetaRoberta"></div>
+                <span id="porcentagemMetaRoberta">0%</span>
+            </div>
+        </div>
+
+
+        <button class="acc-btn">Desafio e Calendario</button>
+        <div class="acc-content">
+
+            <div class="barra">
+                <div id="progresso_rafaela"></div>
+                <span id="porcentagem_rafaela">0%</span>
+            </div>
+
+            <div class="barra">
+                <div id="progresso_roberta"></div>
+                <span id="porcentagem_roberta">0%</span>
+            </div>
+
+            <!-- 👇 CALENDÁRIO DIRETO AQUI -->
+            <div class="cal-header">
+                <button class="flechas" onclick="mudarMes(-1)">◀</button>
+                <h3 id="mesAno"></h3>
+                <button class="flechas" onclick="mudarMes(1)">▶</button>
+            </div>
+
+            <div id="calendario" class="cal-grid"></div>
+
+        </div>
+
+        <button class="acc-btn">Pagar</button>
+        <div class="acc-content">
+            <button onclick="pagar()">Pagar</button>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="pagar.js"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #fffce0;
+    background: #ececec;
     color: #000;
 }
 /* ===== TEMAS ===== */
@@ -16,6 +16,9 @@ body.rafaela .topo {
 
 body.roberta .topo {
     background: #ffb6c1; /* rosa gatos */
+}
+body.fabiano .topo {
+    background: #62b4f8; /* rosa gatos */
 }
 
 
@@ -28,6 +31,17 @@ body.rafaela button {
 body.roberta button {
     background: #ffb6c1;
 }
+body.fabiano button {
+    background: #62b4f8; /* rosa gatos */
+}
+body.fabiano .acc-btn {
+    background: #62b4f8;
+}
+
+body.fabiano .acc-btn:hover {
+    background: #5295cc;
+}
+
 
 .logout {
     width: auto;
@@ -41,7 +55,7 @@ body.roberta button {
 }
 
 .logout:hover {
-    background: rgba(207, 207, 207, 0.25);
+    background: #5295cc;
 }
 
 .topo {
@@ -72,14 +86,14 @@ select, button {
 }
 
 button {
-    background: #667eea;
+    background: #62b4f8;
     color: black;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background: #5563d6;
+    background: #62b4f8;
 }
 
 /* ACCORDION */
@@ -88,11 +102,11 @@ button:hover {
     width: 100%;
     text-align: left;
     padding: 15px;
-    background: white;
     border: none;
     border-bottom: 1px solid #eee;
     font-size: 16px;
     cursor: pointer;
+    color: black;
 }
 
 .acc-content {
@@ -171,6 +185,9 @@ button:active {
   min-height: 260px; /* ⭐ IMPORTANTE */
 }
 
+.cal-grid div{
+  text-align:center;
+}
 .dia {
   position: relative;
   height: 45px;
@@ -181,23 +198,26 @@ button:active {
   border-radius: 8px;
   color: black;
   font-weight: 500;
+  overflow: visible;
+  z-index: 1; /* ⭐ */
 }
-
 .bolinha {
-  width: 70px;
-  height: 45px;
-  border-radius: 8px;
   position: absolute;
-  z-index: 1;
-  opacity: 0.5;
+  inset: 0;
+  border-radius: 8px;
+  opacity: 0.45;
+  z-index: 0; /* fica atrás do número */
+}
+.dia::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 }
 #calendario {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
-}
-.cal-grid div{
-  text-align:center;
 }
 .flechas{
     width: 30%;
