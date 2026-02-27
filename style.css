@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    transition: 0.4s;
+    background: #eee;
+}
+
+/* ===== FUNDOS ===== */
+
+/* Fabiano - azul */
+body.fabiano {
+    background: linear-gradient(135deg, #62b4f8, #00183b);
+}
+
+/* Rafaela - verde */
+body.rafaela {
+    background: #fff67b;
+}
+
+/* Roberta - rosa */
+body.roberta {
+    background-color: #ffb6c1;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.4) 2px, transparent 2px);
+    background-size: 40px 40px;
+}
+
+/* ===== LOGIN ===== */
+
+.login-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+select, input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #777777;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.erro {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+a{
+    text-decoration: none;
+    color: black;
+}

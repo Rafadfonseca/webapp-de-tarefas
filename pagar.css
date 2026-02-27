@@ -1,0 +1,224 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #ececec;
+    color: #000;
+}
+/* ===== TEMAS ===== */
+
+body.rafaela .topo {
+    background: #fff67b; /* verde dinheiro */
+}
+
+body.roberta .topo {
+    background: #ffb6c1; /* rosa gatos */
+}
+body.fabiano .topo {
+    background: #62b4f8; /* rosa gatos */
+}
+
+
+/* BOTÕES seguem o tema */
+
+body.rafaela button {
+    background: #fff67b;
+}
+
+body.roberta button {
+    background: #ffb6c1;
+}
+body.fabiano button {
+    background: #62b4f8; /* rosa gatos */
+}
+body.fabiano .acc-btn {
+    background: #62b4f8;
+}
+
+body.fabiano .acc-btn:hover {
+    background: #5295cc;
+}
+
+
+.logout {
+    width: auto;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.15);
+    color: black;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.logout:hover {
+    background: #5295cc;
+}
+
+.topo {
+    color: black;
+    padding: 20px;
+}
+
+.container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+select, button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background: #62b4f8;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #62b4f8;
+}
+
+/* ACCORDION */
+
+.acc-btn {
+    width: 100%;
+    text-align: left;
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    cursor: pointer;
+    color: black;
+}
+
+.acc-content {
+    max-height: 0;
+    overflow: hidden;
+    background: #fafafa;
+    transition: max-height 0.3s ease;
+    padding: 0 15px;
+}
+.acc-content.open {
+    padding: 15px;
+}
+.barra {
+    width: 100%;
+    height: 26px;
+    background: #eee;
+    border-radius: 13px;
+    margin-top: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.barra div {
+    height: 100%;
+    width: 0%;
+    transition: width 0.8s ease;
+}
+
+.barra span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+#porcentagemMeta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+#progressoMeta {
+    height: 100%;
+    width: 0%;
+    transition: width 0.8s ease;
+}
+
+button:active {
+    filter: brightness(0.85);
+    transform: scale(0.97);
+}
+#barraRafaela,
+#barraRoberta {
+    height: 100%;
+    width: 0%;
+    transition: width 0.8s ease;
+}
+
+.cal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+  min-height: 260px; /* ⭐ IMPORTANTE */
+}
+
+.cal-grid div{
+  text-align:center;
+}
+.dia {
+  position: relative;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f1f1;
+  border-radius: 8px;
+  color: black;
+  font-weight: 500;
+  overflow: visible;
+  z-index: 1; /* ⭐ */
+}
+.bolinha {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  opacity: 0.45;
+  z-index: 0; /* fica atrás do número */
+}
+.dia::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+#calendario {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.flechas{
+    width: 30%;
+}

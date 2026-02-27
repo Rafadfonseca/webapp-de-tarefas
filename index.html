@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <div class="login-box">
+            <a href="index.html"><h2>Login</h2></a>
+
+            <select id="usuario" onchange="trocarFundo()">
+                <option value="">Selecione o usuário</option>
+                <option value="rafaela">Rafaela</option>
+                <option value="roberta">Roberta</option>
+                <option value="fabiano">Fabiano</option>
+            </select>
+
+            <input type="password" id="senha" placeholder="Senha">
+
+            <button onclick="login()">Entrar</button>
+
+            <div class="erro" id="erro"></div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
